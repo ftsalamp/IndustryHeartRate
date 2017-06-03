@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.things.pio.PeripheralManagerService;
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
     private SpiDevice mDevice;
     PulseSensorUtil pulseSensor=new PulseSensorUtil();
-
+    private int lowMax=55, norm=95;
     TextView heartratelabel;
 
     @Override
@@ -41,6 +43,15 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.w(TAG, "Unable to access SPI device", e);
         }
+
+        Button but= (Button) findViewById(R.id.button);
+        but.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                lowMax= Integer.parseInt(findViewById(R.id.lowMax).toString());
+                norm= Integer.parseInt(findViewById(R.id.editNormalMax).toString());
+            }
+        });
     }
 
     @Override
@@ -85,6 +96,14 @@ public class MainActivity extends AppCompatActivity {
 
                 String bpm = pulseSensor.process(a2dVal);
                 heartratelabel.setText(bpm);
+                int temp=Integer.parseInt(bpm);
+                TextView rec= (TextView)findViewById(R.id.speedReccomendation);
+                if(temp<lowMax)
+                    rec.setText("The production line could go faster");
+                else if(temp<norm)
+                    rec.setText("The production line is at optimal speed");
+                else
+                    rec.setText("The production line is going too fast");
 
                 mHandler.postDelayed(deviceReadThread, INTERVAL_BETWEEN_BLINKS_MS);
             } catch (IOException e) {
