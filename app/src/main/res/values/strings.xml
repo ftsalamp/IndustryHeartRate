@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">IndustryHeartRate</string>
+    <string name="bpm">BPM:</string>
+    <string name="personal_settings">Personal Settings</string>
+    <string name="high_bpm">High bpm</string>
+    <string name="normal_bpm">Normal bpm</string>
+    <string name="low_bpm">Low bpm</string>
+    <string name="min_value">Min value:</string>
+    <string name="max_value">Max value:</string>
+    <string name="save">Save</string>
 </resources>
